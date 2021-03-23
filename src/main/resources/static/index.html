@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+</head>
+<style>
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 30%; /* Could be more or less, depending on screen size */
+    }
+
+</style>
+
+
+<script src="index.js"></script>
+<body>
+<div id="wrapper">
+    <h1>Sortable Table of Search Queries</h1>
+    <div style="float: right">
+        <div>
+            <span id="view_sort" onclick = "list_sort(id)">조회순</span>
+            <span id="date_sort" onclick = "list_sort(data_sort)">최신순</span>
+        </div>
+        <input id="maker"></input><button>검색</button>
+        <div style="margin-top: 25px">
+            <button id="modal_opne_btn" onclick="open_pop()">작성하기</button>
+        </div>
+    </div>
+
+    <table id="keywords" cellspacing="0" cellpadding="0">
+        <thead>
+        <tr>
+            <th><span>제목</span></th>
+            <th><span>작성자</span></th>
+            <th><span>조회수</span></th>
+            <th><span>생성일</span></th>
+
+        </tr>
+        </thead>
+        <tbody id="my_list">
+        </tbody>
+    </table>
+
+</div>
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+
+            <h3>제목</h3><input id="title">
+        <div>
+            <h3>작성자</h3><input id="nickname">
+        </div>
+
+        <div>
+            <h3>내용</h3><textarea cols="30" rows="10" id="contents" placeholder="내용을 입력해주세요"></textarea>
+        </div>
+        <div>
+                <button onclick="close_pop()">취소</button>
+                <button onclick="enroll_contents()">등록</button>
+        </div>
+    </div>
+
+</div>
+
+<div id="choice_contents" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <div id="now_contents">
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
