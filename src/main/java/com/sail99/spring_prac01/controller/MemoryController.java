@@ -30,13 +30,17 @@ public class MemoryController {
         Memory memory = memoryRepository.findById(id).orElseThrow(
                 ()-> new NullPointerException("해당하는 아이디가 없습니다.")
         );
-
+        memoryService.hit(id);
         return memory.getContents();
     }
 
     @GetMapping("/api/memorys")
     public List<Memory> getMemorys(){
-        return memoryRepository.findAllByOrderByModifiedAtDesc();
+        return memoryRepository.findAllByOrderByCreatedAtDesc();
+    }
+    @GetMapping("/api/memory/view")
+    public List<Memory> getMemorysView(){
+        return memoryRepository.findAllByOrderByViewDesc();
     }
 
     @DeleteMapping("/api/memorys/{id}")

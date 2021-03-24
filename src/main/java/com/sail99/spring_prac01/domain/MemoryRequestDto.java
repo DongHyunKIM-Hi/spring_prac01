@@ -8,4 +8,5 @@ public class MemoryRequestDto {
     private String title;
     private String nickname;
     private String contents;
+    private int view;
 }

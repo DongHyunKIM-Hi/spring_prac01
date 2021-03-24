@@ -24,4 +24,11 @@ public class MemoryService {
         memory.update(requestDto);
         return memory.getId();
     }
+    @Transactional
+    public void hit(Long id){
+        Memory memory = memoryRepository.findById(id).orElseThrow(
+                ()-> new NullPointerException("해당하는 아이디가 없네요")
+        );
+        memory.hit(memory);
+    }
 }

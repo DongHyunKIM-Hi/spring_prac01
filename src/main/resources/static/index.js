@@ -2,8 +2,33 @@ $(document).ready(function(){
     getList();
 });
 
-function list_sort(text){
-    alert(text)
+function list_sort(){
+    $('#my_list').empty();
+    $.ajax({
+        type: 'GET',
+        url: '/api/memory/view',
+        success: function (response) {
+            for (let i = 0; i < response.length; i++) {
+
+                let message = response[i];
+                let id = message['id'];
+                let title = message['title']
+                let nickname = message['nickname'];
+                let modifiedAt = message['modifiedAt'];
+                let view  = message['view'];
+                modifiedAt = modifiedAt.substring(0,10) +" "+modifiedAt.substring(11,16)
+                let tempHtml = `
+                <tr id="list_${id}" onclick="open_contents(${id})">
+                    <td class="lalign">${title}</td>
+                    <td>${nickname}</td>
+                    <td>${view}</td>
+                    <td>${modifiedAt}</td>
+                </tr>`;
+
+                $('#my_list').append(tempHtml);
+            }
+        }
+    })
 }
 
 function open_pop() {
@@ -16,6 +41,7 @@ function close_pop(flag) {
 function  sut_pop(){
     $('#now_contents').empty();
     $('#choice_contents').hide();
+    window.location.reload();
 }
 function enroll_contents() {
     let nickname= $('#nickname').val()
@@ -52,14 +78,38 @@ function open_contents(id){
         success: function (response) {
 
             let tmp  = `<h2 style="font-size: large;  margin: 30px;">${response}</h2>
+                        <textarea placeholder="${response}" cols="30" rows="10" id="new_contents" style="display: none"></textarea>
                         <button onclick="sut_pop()">닫기</button>
-                        <button onclick="">수정하기</button>`
+                        <button onclick="edit_contents()">수정하기</button>
+                        <button onclick="save_contents(${id})">저장하기</button>`
             $('#now_contents').append(tmp)
         }
     })
 }
 
+function edit_contents(){
+    $('#new_contents').show();
+}
+
+
+function save_contents(id){
+    let contents = $('#new_contents').val();
+    let data = {"contents": contents}
+    $.ajax({
+        type: "PUT",
+        url: `/api/memorys/${id}`,
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function (response) {
+            alert('메시지 변경에 성공하였습니다.');
+            window.location.reload();
+        }
+    });
+}
+
+
 function getList(){
+    $('#my_list').empty();
     $.ajax({
         type: 'GET',
         url: '/api/memorys',
@@ -71,12 +121,13 @@ function getList(){
                 let title = message['title']
                 let nickname = message['nickname'];
                 let modifiedAt = message['modifiedAt'];
+                let view  = message['view'];
                 modifiedAt = modifiedAt.substring(0,10) +" "+modifiedAt.substring(11,16)
                 let tempHtml = `
                 <tr id="list_${id}" onclick="open_contents(${id})">
                     <td class="lalign">${title}</td>
                     <td>${nickname}</td>
-                    <td>110</td>
+                    <td>${view}</td>
                     <td>${modifiedAt}</td>
                 </tr>`;
 
