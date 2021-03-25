@@ -7,4 +7,5 @@ import java.util.List;
 public interface MemoryRepository extends JpaRepository<Memory,  Long> {
 List<Memory>  findAllByOrderByCreatedAtDesc();
 List<Memory>  findAllByOrderByViewDesc();
+List<Memory>  findByNicknameOrderByCreatedAtDesc(String nickname);
 }

@@ -38,9 +38,15 @@ public class MemoryController {
     public List<Memory> getMemorys(){
         return memoryRepository.findAllByOrderByCreatedAtDesc();
     }
+
     @GetMapping("/api/memory/view")
     public List<Memory> getMemorysView(){
         return memoryRepository.findAllByOrderByViewDesc();
+    }
+
+    @GetMapping("/api/memorys/name/{nickname}")
+    public List<Memory> getMemorysNickname(@PathVariable String nickname){
+        return memoryRepository.findByNicknameOrderByCreatedAtDesc(nickname);
     }
 
     @DeleteMapping("/api/memorys/{id}")
@@ -53,4 +59,7 @@ public class MemoryController {
         memoryService.update(id,requestDto);
         return id;
     }
+
+
+
 }
