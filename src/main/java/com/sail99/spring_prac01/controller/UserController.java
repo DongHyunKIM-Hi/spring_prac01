@@ -27,7 +27,7 @@ public class UserController {
 
     @GetMapping("/user/login/error")
     public String loginError(Model model) {
-        model.addAttribute("loginError", true);
+        model.addAttribute("loginError", "테스트 입니다");
         return "login";
     }
 
@@ -39,8 +39,14 @@ public class UserController {
 
     // 회원 가입 요청 처리
     @PostMapping("/user/signup")
-    public String registerUser(SignupRequestDto requestDto) {
-        userService.registerUser(requestDto);
+    public String registerUser(SignupRequestDto requestDto,Model model) {
+        try{
+            userService.registerUser(requestDto);
+        }catch (IllegalArgumentException e){
+            System.out.println(e);
+            model.addAttribute("message", e.getMessage());
+            return "signup";
+        }
         return "redirect:/";
     }
 

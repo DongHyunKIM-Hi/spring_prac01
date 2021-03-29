@@ -40,9 +40,24 @@ public class UserService {
         // 회원 ID 중복 확인
         Optional<User> found = userRepository.findByUsername(username);
         if (found.isPresent()) {
-            throw new IllegalArgumentException("중복된 사용자 ID 가 존재합니다.");
+            throw new IllegalArgumentException("ID중복");
+        }
+        if(username.length() <3){
+            throw new IllegalArgumentException("ID길이");
         }
         String password = passwordEncoder.encode(requestDto.getPassword());
+
+        if (requestDto.getPassword().contains(username)){
+            throw new IllegalArgumentException("비밀번호에 아이디가 들어가있습니다.");
+        }
+        String password2 = passwordEncoder.encode(requestDto.getPassword());
+
+        if (!requestDto.getPassword().equals(requestDto.getPassword2())){
+            throw new IllegalArgumentException("비번오류");
+        }
+        if (requestDto.getPassword().length() < 4){
+            throw new IllegalArgumentException("비번길이");
+        }
         String email = requestDto.getEmail();
         // 사용자 ROLE 확인
         UserRole role = UserRole.USER;

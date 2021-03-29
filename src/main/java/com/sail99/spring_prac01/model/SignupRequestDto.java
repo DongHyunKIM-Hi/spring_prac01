@@ -10,7 +10,7 @@ public class SignupRequestDto {
 
     private String username;
     private String password;
-    private String password_check;
+    private String password2;
     private String email;
     private boolean admin = false;
     private String adminToken = "";

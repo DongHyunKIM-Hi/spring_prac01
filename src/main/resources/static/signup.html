@@ -31,14 +31,22 @@
 </head>
 <body>
 <div id="login-form">
-  <div id="login-title">Sign up Select Shop</div>
+
 
   <form action="/user/signup" method="post">
     <div class="login-id-label">Username</div>
+    <div th:if="${message}=='ID중복'" class="alert alert-danger" role="alert">이미 사용중인 아이디입니다.</div>
+    <div th:if="${message}=='ID길이'" class="alert alert-danger" role="alert">아이디는 3글자 이상부터 가능</div>
     <input type="text" name="username" placeholder="Username" class="login-input-box">
 
     <div class="login-id-label">Password</div>
+    <div th:if="${message}=='비밀번호에 아이디가 들어가있습니다.'" class="alert alert-danger" role="alert">비밀번호에 아이디가 들어가있습니다.</div>
+    <div th:if="${message}=='비번길이'" class="alert alert-danger" role="alert">비밀번호는 4글자 이상부터</div>
     <input type="password" name="password" class="login-input-box">
+
+    <div class="login-id-label">Password 확인</div>
+    <div th:if="${message}=='비번오류'" class="alert alert-danger" role="alert">비밀번호가 일치하지 않습니다</div>
+    <input type="password" name="password2" class="login-input-box">
 
     <div class="login-id-label">E-mail</div>
     <input type="text" name="email" placeholder="E-mail" class="login-input-box">
