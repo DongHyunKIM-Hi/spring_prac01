@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -15,6 +16,14 @@ import javax.transaction.Transactional;
 public class MemoryService {
     private final MemoryRepository  memoryRepository;
 
+
+    public List<Memory> getMyMemorys(Long userId){
+        return memoryRepository.findAllByUserId(userId);
+    }
+
+    public List<Memory> getMemorys(){
+        return memoryRepository.findAllByOrderByCreatedAtDesc();
+    }
 
     @Transactional
     public Long update(Long id, MemoryRequestDto requestDto){
@@ -30,5 +39,12 @@ public class MemoryService {
                 ()-> new NullPointerException("해당하는 아이디가 없네요")
         );
         memory.hit(memory);
+    }
+
+    @Transactional
+    public Memory createMemory(MemoryRequestDto requestDto, Long userId){
+        Memory memory = new Memory(requestDto, userId);
+        memoryRepository.save(memory);
+        return memory;
     }
 }

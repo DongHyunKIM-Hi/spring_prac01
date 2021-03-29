@@ -167,3 +167,32 @@ function getList(){
         }
     })
 }
+
+function myPage(){
+    $('#my_list').empty();
+    $.ajax({
+        type: 'GET',
+        url: '/api/my_meorys',
+        success: function (response) {
+            for (let i = 0; i < response.length; i++) {
+
+                let message = response[i];
+                let id = message['id'];
+                let title = message['title']
+                let nickname = message['nickname'];
+                let modifiedAt = message['modifiedAt'];
+                let view  = message['view'];
+                modifiedAt = modifiedAt.substring(0,10) +" "+modifiedAt.substring(11,16)
+                let tempHtml = `
+                <tr id="list_${id}" onclick="open_contents(${id})">
+                    <td class="lalign">${title}</td>
+                    <td>${nickname}</td>
+                    <td>${view}</td>
+                    <td>${modifiedAt}</td>
+                </tr>`;
+
+                $('#my_list').append(tempHtml);
+            }
+        }
+    })
+}

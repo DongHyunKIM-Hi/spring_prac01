@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Spring</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
@@ -39,7 +39,10 @@
 <script src="index.js"></script>
 <body>
 <div id="wrapper">
-    <h1>Sortable Table of Search Queries</h1>
+    <h1 th:text="${username}"></h1>
+    <a id="logout-text" href="/user/logout">
+        로그아웃
+    </a>
     <div style="float: right">
         <div>
             <span id="view_sort" onclick = "getList()">최신순</span>
@@ -48,6 +51,7 @@
         <input id="maker"></input><button onclick="keyword_list()">검색</button>
         <div style="margin-top: 25px">
             <button id="modal_opne_btn" onclick="open_pop()">작성하기</button>
+            <button id="my_page" onclick="myPage()">내가 쓴 글 보러가기</button>
         </div>
     </div>
 
@@ -66,6 +70,8 @@
     </table>
 
 </div>
+<div th:if="${admin}" id="admin" ></div>
+
 <div id="myModal" class="modal">
 
     <!-- Modal content -->

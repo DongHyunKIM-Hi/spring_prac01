@@ -28,13 +28,18 @@ public class Memory extends Timestamped{
     @Column(nullable = false)
     private int view;
 
-    public Memory(String title,String nickname, String contents) {
+    @Column(nullable = false)
+    private Long userId;
+
+    public Memory(String title,String nickname, String contents, Long userId) {
+        this.userId = userId;
         this.title = title;
         this.nickname = nickname;
         this.contents = contents;
         this.view = 0;
     }
-    public Memory(MemoryRequestDto requestDto) {
+    public Memory(MemoryRequestDto requestDto, Long userId) {
+        this.userId = userId;
         this.title = requestDto.getTitle();
         this.nickname = requestDto.getNickname();
         this.contents = requestDto.getContents();

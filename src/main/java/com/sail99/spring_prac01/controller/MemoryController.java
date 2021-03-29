@@ -4,9 +4,11 @@ package com.sail99.spring_prac01.controller;
 import com.sail99.spring_prac01.domain.Memory;
 import com.sail99.spring_prac01.domain.MemoryRepository;
 import com.sail99.spring_prac01.domain.MemoryRequestDto;
+import com.sail99.spring_prac01.security.UserDetailsImpl;
 import com.sail99.spring_prac01.service.MemoryService;
 import jdk.jfr.Frequency;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,9 +22,10 @@ public class MemoryController {
     private final MemoryService memoryService;
 
     @PostMapping("/api/memorys")
-    public Memory createMemo(@RequestBody MemoryRequestDto requestDto) {
-        Memory memo = new Memory(requestDto);
-        return memoryRepository.save(memo);
+    public Memory createMemo(@RequestBody MemoryRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Long userId = userDetails.getUser().getId();
+        Memory memory = memoryService.createMemory(requestDto,userId);
+        return memory;
     }
 
     @GetMapping("/api/memorys/search/{id}")
@@ -34,9 +37,14 @@ public class MemoryController {
         return memory.getContents();
     }
 
+    @GetMapping("/api/my_meorys")
+    public List<Memory> getMyMemorys(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        Long userId = userDetails.getUser().getId();
+        return memoryService.getMyMemorys(userId);
+    }
     @GetMapping("/api/memorys")
     public List<Memory> getMemorys(){
-        return memoryRepository.findAllByOrderByCreatedAtDesc();
+        return memoryService.getMemorys();
     }
 
     @GetMapping("/api/memory/view")
