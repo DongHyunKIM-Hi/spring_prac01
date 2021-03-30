@@ -50,9 +50,23 @@ function enroll_contents() {
 }
 
 function delete_content(id){
+    alert(id)
     $.ajax({
         type: "DELETE",
         url: `/api/memorys/${id}`,
+        contentType: "application/json", // JSON 형식으로 전달함을 알리기
+        data: JSON.stringify(),
+        success: function (response) {
+            alert('메시지가 성공적으로 작성되었습니다.');
+            window.location.reload();
+        }
+    });
+}
+
+function delete_comment(id){
+    $.ajax({
+        type: "DELETE",
+        url: `/api/comments/${id}`,
         contentType: "application/json", // JSON 형식으로 전달함을 알리기
         data: JSON.stringify(),
         success: function (response) {
@@ -245,13 +259,21 @@ function open_contents(id){
         type: 'GET',
         url: `/sort/comments/${id}`,
         success: function (response) {
-        for(let i =0; i<response.length;i++){
+        for(let i =0; i<response.length;i++) {
             let comment_index = response[i];
+            let comment_id = comment_index['id']
             let content = comment_index['single_comment']
             let writer = comment_index['writer']
-            if (writer === login_user){}
-            let tmp2 = `<li><span>${writer}</span> : <span>${content}</span><button>삭제</button><button>수정하기</button></li>`
-            $('#comment_box').append(tmp2)}
+            if (writer === login_user) {
+            }
+            if (login_user === writer) {
+                let tmp2 = `<li><span>${writer}</span> : <span>${content}</span><button onclick="delete_comment(${comment_id})">삭제</button><button>수정하기</button></li>`
+                $('#comment_box').append(tmp2)
+            } else {
+                let tmp2 = `<li><span>${writer}</span> : <span>${content}</span></li>`
+                $('#comment_box').append(tmp2)
+            }
+        }
         }
     })
 }

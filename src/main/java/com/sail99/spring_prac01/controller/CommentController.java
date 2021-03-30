@@ -36,4 +36,10 @@ public class CommentController {
         Comment comment = commentService.createComment(requestDto, writer);
         return comment;
     }
+    @Secured("ROLE_USER")
+    @DeleteMapping("/api/comments/{id}")
+    public Long deleteComment(@PathVariable Long id) {
+        commentRepository.deleteById(id);
+        return id;
+    }
 }
