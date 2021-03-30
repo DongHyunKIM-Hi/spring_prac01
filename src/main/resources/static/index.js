@@ -1,5 +1,6 @@
 $(document).ready(function(){
     getList();
+
 });
 
 
@@ -24,6 +25,7 @@ function  sut_pop(){
     window.location.reload();
 }
 function enroll_contents() {
+
     let nickname= $('#nickname').text()
     let title  = $('#title').val()
     if  (title.trim()   == ""){
@@ -47,7 +49,18 @@ function enroll_contents() {
     });
 }
 
-
+function delete_content(id){
+    $.ajax({
+        type: "DELETE",
+        url: `/api/memorys/${id}`,
+        contentType: "application/json", // JSON 형식으로 전달함을 알리기
+        data: JSON.stringify(),
+        success: function (response) {
+            alert('메시지가 성공적으로 작성되었습니다.');
+            window.location.reload();
+        }
+    });
+}
 
 
 function save_contents(id){
@@ -173,7 +186,8 @@ function keyword_list(){
 
 }
 function open_contents(id){
-    let nickname= $('#nickname').text()
+    //nickname은 현재 로그인해있는 아이디
+    let login_user= $('#user_name').text()
     $('#choice_contents').show();
     $.ajax({
         type: 'GET',
@@ -182,8 +196,8 @@ function open_contents(id){
             let message = response;
             let nickname = message['nickname'];
             let contents = message['contents'];
-
-            let tmp  = `<h2>${nickname}</h2>
+            if (login_user === nickname){
+                let tmp  = `<h2>${nickname}</h2>
                         <p>
                         ${contents}
                         </p>
@@ -194,16 +208,36 @@ function open_contents(id){
                         
                         <button onclick="edit_contents()">수정하기</button>
                         <div style="display: none" id="new_contents_form">
-                            <textarea placeholder="${response}" id="new_contents" cols="30" rows="10" ></textarea>
+                            <textarea placeholder="${contents}" id="new_contents" cols="30" rows="10" ></textarea>
                             <button onclick="save_contents(${id})">저장하기</button>
                         </div>
+                         
+                        <button onclick="add_comment_porm()">댓글달기</button>
+                        <div style="display: none" id="new_comment_form">
+                            <textarea placeholder="댓글을 남겨주세요" id="new_comment" cols="30" rows="10" ></textarea>
+                            <button onclick="save_comment('${nickname}',${id})">저장하기</button>
+                        </div>
+                        <button onclick="delete_content(${id})">삭제하기</button>
+`
+                $('#now_contents').append(tmp)
+            }
+            else{
+                let tmp  = `<h2>${nickname}</h2>
+                        <p>
+                        ${contents}
+                        </p>
+                        <hr>
+                        <br/>
                         
+                        <button onclick="sut_pop()">닫기</button>      
                         <button onclick="add_comment_porm()">댓글달기</button>
                         <div style="display: none" id="new_comment_form">
                             <textarea placeholder="댓글을 남겨주세요" id="new_comment" cols="30" rows="10" ></textarea>
                             <button onclick="save_comment('${nickname}',${id})">저장하기</button>
                         </div>`
-            $('#now_contents').append(tmp)
+                $('#now_contents').append(tmp)
+            }
+
         }
     })
 
@@ -215,7 +249,8 @@ function open_contents(id){
             let comment_index = response[i];
             let content = comment_index['single_comment']
             let writer = comment_index['writer']
-            let tmp2 = `<li><span>${writer}</span> : <span>${content}</span></li>`
+            if (writer === login_user){}
+            let tmp2 = `<li><span>${writer}</span> : <span>${content}</span><button>삭제</button><button>수정하기</button></li>`
             $('#comment_box').append(tmp2)}
         }
     })

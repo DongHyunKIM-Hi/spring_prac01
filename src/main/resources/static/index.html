@@ -48,12 +48,11 @@
 </style>
 
 
-<script src="index.js"></script>
+<script src="index.js" ></script>
 <body>
-
 <div id="wrapper">
     <div th:if="${action} == 'true'">
-        <h1 th:text="${username}"></h1>
+        <h1 id="user_name" th:text="${username}"></h1>
         <a id="logout-text" href="/user/logout">
             로그아웃
         </a>
@@ -66,7 +65,7 @@
             <span id="view_sort" onclick = "getList()">최신순</span>
             <span id="date_sort" onclick = "list_sort()">조회순</span>
         </div>
-        <input id="maker"></input><button onclick="keyword_list()">검색</button>
+        <input id="maker"/><button onclick="keyword_list()">검색</button>
         <div  th:if="${action} == 'true'" style="margin-top: 25px">
             <button id="modal_opne_btn" onclick="open_pop()">작성하기</button>
             <button id="my_page" onclick="myPage()">내가 쓴 글 보러가기</button>
