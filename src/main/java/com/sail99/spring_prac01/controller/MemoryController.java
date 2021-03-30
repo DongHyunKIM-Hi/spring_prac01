@@ -67,12 +67,12 @@ public class MemoryController {
 
     //게시글 보기
     @GetMapping("/sort/memorys/search/{id}")
-    public String findMemory(@PathVariable Long id) {
+    public Memory findMemory(@PathVariable Long id) {
         Memory memory = memoryRepository.findById(id).orElseThrow(
                 () -> new NullPointerException("해당하는 아이디가 없습니다.")
         );
         memoryService.hit(id);
-        return memory.getContents();
+        return memory;
     }
 
 

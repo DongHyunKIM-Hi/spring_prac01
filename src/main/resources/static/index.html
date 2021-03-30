@@ -25,12 +25,24 @@
     }
 
     /* Modal Content/Box */
-    .modal-content {
+    .modal-content1 {
         background-color: #fefefe;
         margin: 15% auto; /* 15% from the top and centered */
         padding: 20px;
         border: 1px solid #888;
-        width: 30%; /* Could be more or less, depending on screen size */
+        width: 40%; /* Could be more or less, depending on screen size */
+    }
+    .modal-content2 {
+        background-color: #fefefe;
+        margin: 30% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%; /* Could be more or less, depending on screen size */
+        font-size: 20px;
+    }
+    .modal-content2 h2, p{
+        margin-top: 10px;
+        margin-bottom: 20px;
     }
 
 </style>
@@ -81,7 +93,7 @@
 <div id="myModal" class="modal">
 
     <!-- Modal content -->
-    <div class="modal-content">
+    <div class="modal-content1">
 
             <h3>제목</h3><input id="title">
         <div>
@@ -100,15 +112,18 @@
 </div>
 
 <div id="choice_contents" class="modal">
-
-    <!-- Modal content -->
-    <div class="modal-content">
+    <div class="modal-content2">
         <div id="now_contents">
 
         </div>
+        <br/>
+        <hr>
+        <div>
+            <ul id="comment_box">
 
+            </ul>
+        </div>
     </div>
-
 </div>
 
 </body>

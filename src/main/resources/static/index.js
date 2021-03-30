@@ -4,9 +4,12 @@ $(document).ready(function(){
 
 
 function edit_contents(){
-    $('#new_contents').show();
+    $('#new_contents_form').show();
 }
 
+function add_comment_porm(){
+    $('#new_comment_form').show();
+}
 
 function open_pop() {
     $('#myModal').show();
@@ -62,7 +65,23 @@ function save_contents(id){
     });
 }
 
+function save_comment(nickname){
 
+    let comment = $('#new_comment').val();
+    let data = {"nickname": nickname,"single_comment": comment}
+
+
+    $.ajax({
+        type: "POST",
+        url: "/api/comments",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function (response) {
+            alert('댓글 등록 성공');
+            window.location.reload();
+        }
+    });
+}
 
 function myPage(){
     $('#my_list').empty();
@@ -154,18 +173,50 @@ function keyword_list(){
 
 }
 function open_contents(id){
+    let nickname= $('#nickname').text()
     $('#choice_contents').show();
     $.ajax({
         type: 'GET',
         url: `/sort/memorys/search/${id}`,
         success: function (response) {
+            let message = response;
+            let nickname = message['nickname'];
+            let contents = message['contents'];
 
-            let tmp  = `<h2 style="font-size: large;  margin: 30px;">${response}</h2>
-                        <textarea placeholder="${response}" cols="30" rows="10" id="new_contents" style="display: none"></textarea>
+            let tmp  = `<h2>${nickname}</h2>
+                        <p>
+                        ${contents}
+                        </p>
+                        <hr>
+                        <br/>
+                        
                         <button onclick="sut_pop()">닫기</button>
+                        
                         <button onclick="edit_contents()">수정하기</button>
-                        <button onclick="save_contents(${id})">저장하기</button>`
+                        <div style="display: none" id="new_contents_form">
+                            <textarea placeholder="${response}" id="new_contents" cols="30" rows="10" ></textarea>
+                            <button onclick="save_contents(${id})">저장하기</button>
+                        </div>
+                        
+                        <button onclick="add_comment_porm()">댓글달기</button>
+                        <div style="display: none" id="new_comment_form">
+                            <textarea placeholder="댓글을 남겨주세요" id="new_comment" cols="30" rows="10" ></textarea>
+                            <button onclick="save_comment('${nickname}')">저장하기</button>
+                        </div>`
             $('#now_contents').append(tmp)
+        }
+    })
+
+    $.ajax({
+        type: 'GET',
+        url: `/sort/comments/${nickname}`,
+        success: function (response) {
+        for(let i =0; i<response.length;i++){
+            let comment_index = response[i];
+            let content = comment_index['single_comment']
+            let writer = comment_index['writer']
+            let tmp2 = `<li><span>${writer}</span> : <span>${content}</span></li>`
+            $('#comment_box').append(tmp2)}
         }
     })
 }

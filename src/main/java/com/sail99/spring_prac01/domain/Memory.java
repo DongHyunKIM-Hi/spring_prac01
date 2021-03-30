@@ -31,6 +31,8 @@ public class Memory extends Timestamped{
     @Column(nullable = false)
     private Long userId;
 
+
+
     public Memory(String title,String nickname, String contents, Long userId) {
         this.userId = userId;
         this.title = title;
