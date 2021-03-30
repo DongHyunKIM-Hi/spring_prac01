@@ -15,8 +15,8 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
     // 해당 게시글 댓글 조회
-    public List<Comment> getComment(String nickname){
-        return commentRepository.findByNicknameOrderByCreatedAt(nickname);
+    public List<Comment> getComment(Long postId){
+        return commentRepository.findByPostIdOrderByCreatedAt(postId);
     }
 
     @Transactional

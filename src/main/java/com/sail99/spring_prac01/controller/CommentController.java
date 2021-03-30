@@ -20,9 +20,9 @@ public class CommentController {
     private final CommentService commentService;
 
     // 호출 (댓글 리스트)
-    @GetMapping("sort/comments/{nickname}")
-    public List<Comment> findCommentList(@PathVariable String nickname) {
-        return commentService.getComment(nickname);
+    @GetMapping("sort/comments/{postId}")
+    public List<Comment> findCommentList(@PathVariable Long postId) {
+        return commentService.getComment(postId);
     }
 
     // 댓글 등록

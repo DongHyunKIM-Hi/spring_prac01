@@ -65,10 +65,10 @@ function save_contents(id){
     });
 }
 
-function save_comment(nickname){
+function save_comment(nickname,id){
 
     let comment = $('#new_comment').val();
-    let data = {"nickname": nickname,"single_comment": comment}
+    let data = {"nickname": nickname,"single_comment": comment,"postId": id}
 
 
     $.ajax({
@@ -201,7 +201,7 @@ function open_contents(id){
                         <button onclick="add_comment_porm()">댓글달기</button>
                         <div style="display: none" id="new_comment_form">
                             <textarea placeholder="댓글을 남겨주세요" id="new_comment" cols="30" rows="10" ></textarea>
-                            <button onclick="save_comment('${nickname}')">저장하기</button>
+                            <button onclick="save_comment('${nickname}',${id})">저장하기</button>
                         </div>`
             $('#now_contents').append(tmp)
         }
@@ -209,7 +209,7 @@ function open_contents(id){
 
     $.ajax({
         type: 'GET',
-        url: `/sort/comments/${nickname}`,
+        url: `/sort/comments/${id}`,
         success: function (response) {
         for(let i =0; i<response.length;i++){
             let comment_index = response[i];
