@@ -24,6 +24,11 @@ public class UserController {
     public String login() {
         return "login";
     }
+    @GetMapping("/user/login/forbidden")
+    public String login_forbidden(Model mode) {
+        mode.addAttribute("error","로그인이 필요한 기능입니다.");
+        return "login";
+    }
 
     @GetMapping("/user/login/error")
     public String loginError(Model model) {

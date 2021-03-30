@@ -41,8 +41,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 그 외 모든 요청은 인증과정 필요
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .loginPage("/user/login")
+                .formLogin()// 시큐리티에서 제공
+                .loginPage("/user/login")//custom 로그인 페이지 설정 안해주면 시큐리티에서 제공해주는거 사용
                 .failureUrl("/user/login/error")
                 .defaultSuccessUrl("/gogo")
                 .permitAll()
@@ -50,6 +50,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutUrl("/user/logout")
                 .logoutSuccessUrl("/")
-                .permitAll();
+                .permitAll()
+                .and()
+                .exceptionHandling()
+                .accessDeniedPage("/user/login/forbidden");
     }
 }

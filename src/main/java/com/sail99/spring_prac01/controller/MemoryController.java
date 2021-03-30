@@ -8,6 +8,7 @@ import com.sail99.spring_prac01.security.UserDetailsImpl;
 import com.sail99.spring_prac01.service.MemoryService;
 import jdk.jfr.Frequency;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +23,7 @@ public class MemoryController {
     private final MemoryService memoryService;
 
     //생성
+    @Secured("ROLE_USER")
     @PostMapping("/api/memorys")
     public Memory createMemo(@RequestBody MemoryRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         Long userId = userDetails.getUser().getId();
@@ -30,6 +32,7 @@ public class MemoryController {
     }
 
     // 게시글 삭제
+    @Secured("ROLE_USER")
     @DeleteMapping("/api/memorys/{id}")
     public Long deleteMemory(@PathVariable Long id) {
         memoryRepository.deleteById(id);
@@ -37,6 +40,7 @@ public class MemoryController {
     }
 
     // 게시글 수정하기
+    @Secured("ROLE_USER")
     @PutMapping("/api/memorys/{id}")
     public Long updateMemory(@PathVariable Long id, @RequestBody MemoryRequestDto requestDto) {
         memoryService.update(id, requestDto);
@@ -45,6 +49,7 @@ public class MemoryController {
 
 
     // 내 글 조회
+    @Secured("ROLE_USER")
     @GetMapping("/api/my_meorys")
     public List<Memory> getMyMemorys(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         Long userId = userDetails.getUser().getId();

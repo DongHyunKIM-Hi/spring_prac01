@@ -55,7 +55,7 @@
             <span id="date_sort" onclick = "list_sort()">조회순</span>
         </div>
         <input id="maker"></input><button onclick="keyword_list()">검색</button>
-        <div style="margin-top: 25px">
+        <div  th:if="${action} == 'true'" style="margin-top: 25px">
             <button id="modal_opne_btn" onclick="open_pop()">작성하기</button>
             <button id="my_page" onclick="myPage()">내가 쓴 글 보러가기</button>
         </div>
@@ -76,7 +76,7 @@
     </table>
 
 </div>
-<div th:if="${admin}" id="admin" ></div>
+
 
 <div id="myModal" class="modal">
 
@@ -85,7 +85,7 @@
 
             <h3>제목</h3><input id="title">
         <div>
-            <h3>작성자</h3><input id="nickname">
+            <h3 id="nickname"th:text="${username}"></h3>
         </div>
 
         <div>

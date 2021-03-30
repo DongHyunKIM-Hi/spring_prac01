@@ -21,10 +21,7 @@ function  sut_pop(){
     window.location.reload();
 }
 function enroll_contents() {
-    let nickname= $('#nickname').val()
-    if (nickname.trim() == ''){
-        nickname = "신원미상"
-    }
+    let nickname= $('#nickname').text()
     let title  = $('#title').val()
     if  (title.trim()   == ""){
         title  ="무제"
