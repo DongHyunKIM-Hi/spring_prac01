@@ -92,10 +92,42 @@ function save_contents(id){
     });
 }
 
-function save_comment(nickname,id){
+function edit_comment(comment,id,content){
+
+    $(`#${comment}`).empty()
+
+    let tmp = `<input placeholder="${content}" id="edit"/>   <button onclick="end_edit(${id})">수정완료</button>`
+    $(`#${comment}`).append(tmp)
+}
+function end_edit(id){
+    let comment = $('#edit').val()
+    if (comment.length===0){
+        alert("내용을 입력해주세요")
+        $('#edit').focus()
+        return
+    }
+    let data= {"single_comment": comment}
+    $.ajax({
+        type: "PUT",
+        url: `/api/comments/${id}`,
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function (response) {
+            alert('메시지 변경에 성공하였습니다.');
+            window.location.reload();
+        }
+    });
+}
+
+function save_comment(id){
 
     let comment = $('#new_comment').val();
-    let data = {"nickname": nickname,"single_comment": comment,"postId": id}
+    if (comment.length===0){
+        alert("내용을 입력해주세요")
+        $('#new_comment').focus()
+        return
+    }
+    let data = {"single_comment": comment,"postId": id}
 
 
     $.ajax({
@@ -109,6 +141,7 @@ function save_comment(nickname,id){
         }
     });
 }
+
 
 function myPage(){
     $('#my_list').empty();
@@ -226,11 +259,7 @@ function open_contents(id){
                             <button onclick="save_contents(${id})">저장하기</button>
                         </div>
                          
-                        <button onclick="add_comment_porm()">댓글달기</button>
-                        <div style="display: none" id="new_comment_form">
-                            <textarea placeholder="댓글을 남겨주세요" id="new_comment" cols="30" rows="10" ></textarea>
-                            <button onclick="save_comment('${nickname}',${id})">저장하기</button>
-                        </div>
+                        
                         <button onclick="delete_content(${id})">삭제하기</button>
 `
                 $('#now_contents').append(tmp)
@@ -243,12 +272,7 @@ function open_contents(id){
                         <hr>
                         <br/>
                         
-                        <button onclick="sut_pop()">닫기</button>      
-                        <button onclick="add_comment_porm()">댓글달기</button>
-                        <div style="display: none" id="new_comment_form">
-                            <textarea placeholder="댓글을 남겨주세요" id="new_comment" cols="30" rows="10" ></textarea>
-                            <button onclick="save_comment('${nickname}',${id})">저장하기</button>
-                        </div>`
+                        <button onclick="sut_pop()">닫기</button>`
                 $('#now_contents').append(tmp)
             }
 
@@ -267,13 +291,16 @@ function open_contents(id){
             if (writer === login_user) {
             }
             if (login_user === writer) {
-                let tmp2 = `<li><span>${writer}</span> : <span>${content}</span><button onclick="delete_comment(${comment_id})">삭제</button><button>수정하기</button></li>`
+                let tmp2 = `<li><span>${writer}</span> : <span id="comment_${comment_id}">${content}<button onclick="delete_comment(${comment_id})">삭제</button>
+                <button onclick="edit_comment('comment_${comment_id}',${comment_id},'${content}')">수정하기</button></span></li>`
                 $('#comment_box').append(tmp2)
             } else {
                 let tmp2 = `<li><span>${writer}</span> : <span>${content}</span></li>`
                 $('#comment_box').append(tmp2)
             }
         }
+        let tmp3 = `<input placeholder="댓글을 입력하세요" id="new_comment" size="90"/><button onclick="save_comment(${id})">등록하기</button>`
+            $('#add_comment').append(tmp3)
         }
     })
 }

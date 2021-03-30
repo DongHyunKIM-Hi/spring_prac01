@@ -4,6 +4,7 @@ package com.sail99.spring_prac01.controller;
 import com.sail99.spring_prac01.comment.Comment;
 import com.sail99.spring_prac01.comment.CommentRepository;
 import com.sail99.spring_prac01.comment.CommentRequestDto;
+import com.sail99.spring_prac01.domain.MemoryRequestDto;
 import com.sail99.spring_prac01.security.UserDetailsImpl;
 import com.sail99.spring_prac01.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,12 @@ public class CommentController {
     @DeleteMapping("/api/comments/{id}")
     public Long deleteComment(@PathVariable Long id) {
         commentRepository.deleteById(id);
+        return id;
+    }
+    @Secured("ROLE_USER")
+    @PutMapping("/api/comments/{id}")
+    public Long updateComment(@PathVariable Long id, @RequestBody CommentRequestDto requestDto) {
+        commentService.update(id, requestDto);
         return id;
     }
 }
