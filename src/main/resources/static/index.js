@@ -4,9 +4,10 @@ $(document).ready(function(){
 
 function list_sort(){
     $('#my_list').empty();
+
     $.ajax({
         type: 'GET',
-        url: '/api/memory/view',
+        url: '/sort/view',
         success: function (response) {
             for (let i = 0; i < response.length; i++) {
 
@@ -140,10 +141,11 @@ function keyword_list(){
 }
 
 function getList(){
+
     $('#my_list').empty();
     $.ajax({
         type: 'GET',
-        url: '/api/memorys',
+        url: '/sort/make',
         success: function (response) {
             for (let i = 0; i < response.length; i++) {
 

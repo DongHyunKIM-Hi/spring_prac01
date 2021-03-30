@@ -3,11 +3,14 @@ package com.sail99.spring_prac01.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+
+@EnableGlobalMethodSecurity(securedEnabled = true)
 @Configuration
 @EnableWebSecurity // 스프링 Security 지원을 가능하게 함
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -31,14 +34,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // css 폴더를 login 없이 허용
                 .antMatchers("/user/**").permitAll()
                 .antMatchers("/css/**").permitAll()
+                .antMatchers("/").permitAll()
+                .antMatchers("/index.html").permitAll()
+                .antMatchers("/sort/**").permitAll()
+                .antMatchers("/index.js").permitAll()
                 // 그 외 모든 요청은 인증과정 필요
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/user/login")
                 .failureUrl("/user/login/error")
-                .loginProcessingUrl("/user/login")
-                .defaultSuccessUrl("/")
+                .defaultSuccessUrl("/gogo")
                 .permitAll()
                 .and()
                 .logout()
