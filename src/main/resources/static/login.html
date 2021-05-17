@@ -15,10 +15,10 @@
 <div id="login-form">
   <div id="login-title">Log into Select Shop</div>
   <button id="login-kakao-btn" onclick="location.href='https://kauth.kakao.com/oauth/authorize?client_id=0fb0e8e8c46374936e9f466c6902ff72&redirect_uri=http://localhost:8080/user/kakao/callback&response_type=code'">
-    카카오로 로그인하기
+    카카오
   </button>
   <button id="login-id-btn" onclick="location.href='/user/signup'">
-    회원 가입하기
+    신규 가입
   </button>
   <div th:if="${loginError}" class="alert alert-danger" role="alert"> 닉네임 또는 패스워드를 확인해주세요</div>
   <form action="/user/login" method="post">
